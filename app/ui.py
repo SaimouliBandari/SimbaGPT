@@ -1,11 +1,10 @@
 import streamlit as st
 from .llm_modal import modal_init
 
-full_response = ""
 llm = modal_init()
-
+full_response = ""
 avatars = {
-    "assistant": "simbaAvt.jpg",
+    "assistant": "avatars/simba.jpg",
     # "user": "https://ui-avatars.com/api/?rounded=true&name=user"
     "user": None,
 }
@@ -23,7 +22,9 @@ def generate_responses(completion):
 
 
 def view_init():
+    st.logo("avatars/simba.jpg")
     st.title("Simba  :dog: GPT")
+
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
             {
