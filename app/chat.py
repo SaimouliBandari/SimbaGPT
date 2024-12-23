@@ -1,27 +1,15 @@
 import streamlit as st
-from .llm_modal import modal_init
+from .llama import get_modal
 
-llm = modal_init()
-full_response = ""
 avatars = {
     "assistant": "avatars/simba.jpg",
     # "user": "https://ui-avatars.com/api/?rounded=true&name=user"
     "user": None,
 }
+llm = get_modal()
 
 
-def generate_responses(completion):
-    print(completion, ">>> completion")
-    global full_response
-    for chunk in completion:
-        print(chunk)
-        response = chunk.choices[0].delta.content or ""
-        if response:
-            full_response += response  # Append to the full response
-            yield response
-
-
-def view_init():
+def chat_ui():
     st.logo("avatars/simba.jpg")
     st.title("Simba  :dog: GPT")
 
@@ -44,7 +32,6 @@ def view_init():
 
         with st.chat_message("assistant", avatar=avatars["assistant"]):
             response = llm.stream(prompt)
-            # generate_responses(response)
             full_response = st.write_stream(response)
             st.session_state.messages.append(
                 {"role": "assistant", "content": full_response}
